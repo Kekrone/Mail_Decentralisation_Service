@@ -46,7 +46,7 @@ async def add_mail_to(message: Message, state: FSMContext) -> None:
         user_id = message.from_user.id
         dm.register_user(user_id=user_id, source=data['mail_f'] + '@apethrone.ru', destination=data['mail_t'])
         tm.add_to_ubuntu(name=data['mail_f'])
-        await message.answer(f'Успешно добавлена переадресация с {data['mail_f'] + '@apethrone.ru'} на {data['mail_t']}')
+        await message.answer(f'Успешно добавлена переадресация с {data["mail_f"] + "@apethrone.ru"} на {data["mail_t"]}')
         await state.clear()
     else:
         await state.set_state(Form.mail_to)
