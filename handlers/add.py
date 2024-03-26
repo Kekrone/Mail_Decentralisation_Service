@@ -1,5 +1,3 @@
-from string import ascii_lowercase
-
 from aiogram import Router, F
 from states import Form
 from aiogram.fsm.context import FSMContext
@@ -19,7 +17,7 @@ def check(email):
         v = validate_email(email)
         email = v.normalized
         return True
-    except EmailNotValidError as e:
+    except EmailNotValidError:
         return False
 
 @router.message(F.text.casefold() == "добавить переадресацию")
@@ -30,13 +28,13 @@ async def add_mail(message: Message, state: FSMContext) -> None:
 
 @router.message(Form.mail_from)
 async def add_mail_from(message: Message, state: FSMContext) -> None:
-    if not check(message.text) and all([x.lower() in ascii_lowercase for x in message.text]):
+    if check(message.text + '@apethrone.ru'):
         await state.update_data(mail_f=message.text)
         await message.answer(text="Введите целевую почту")
         await state.set_state(Form.mail_to)
     else:
         await state.set_state(Form.mail_from)
-        await message.answer(text="Название для почты не должно содержать `@доменное_имя`", parse_mode=ParseMode.MARKDOWN)
+        await message.answer(text="Название для почты не должно содержать `@доменное_имя` или латинские буквы", parse_mode=ParseMode.MARKDOWN)
 
 
 
@@ -48,7 +46,7 @@ async def add_mail_to(message: Message, state: FSMContext) -> None:
         user_id = message.from_user.id
         dm.register_user(user_id=user_id, source=data['mail_f'] + '@apethrone.ru', destination=data['mail_t'])
         tm.add_to_ubuntu(name=data['mail_f'])
-        await message.answer(str(data) + str(user_id))
+        await message.answer(f'Успешно добавлена переадресация с {data['mail_f'] + '@apethrone.ru'} на {data['mail_t']}')
         await state.clear()
     else:
         await state.set_state(Form.mail_to)
