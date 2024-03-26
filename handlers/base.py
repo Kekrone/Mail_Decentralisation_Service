@@ -5,14 +5,13 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, ReplyKeyboardMarkup, KeyboardButton
 
 import dbmanager as dm
-import terminal as tm
 
 router = Router()
 
 @router.message(CommandStart())
 async def command_start(message: Message, state: FSMContext) -> None:
     await message.answer(
-        f"Выберите действие",
+        "Выберите действие",
         reply_markup=ReplyKeyboardMarkup(
             keyboard=[
                 [
@@ -40,4 +39,4 @@ async def get_list_mails(message: Message):
         else:
             raise IndexError
     except IndexError:
-        await message.answer("Нет")
+        await message.answer("У вас нету сущевствующих переадресаций")

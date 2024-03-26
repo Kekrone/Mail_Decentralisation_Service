@@ -1,6 +1,5 @@
 import sqlite3
 import config
-import terminal
 
 
 def create_table():
