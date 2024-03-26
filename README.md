@@ -1,5 +1,11 @@
 # Project Name: Telegram Address Mask Bot
 
+[![Telegram](https://img.shields.io/badge/-Telegram-2CA5E0?style=flat&logo=telegram&logoColor=white)](https://t.me/sanichhubbot)
+
+<p align="center">
+ <img width="600" src="assets/test.png" alt="test_bot"/>
+</p>
+
 ## Description
 This project is a Telegram bot that generates masks for real postal addresses for the users of this bot. This allows users to achieve anonymity and protection against hacking. The service also solves the problems of creating multiple email addresses and passwords for them.
 
