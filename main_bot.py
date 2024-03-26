@@ -9,7 +9,7 @@ from handlers.add import router as add_router
 from handlers.delete import router as delete_router
 
 
-TOKEN = ""
+TOKEN = "6893136624:AAFekLOwqnzKoXDS_GZScAIozQyy_k2MB2I"
 
 async def main():
     bot = Bot(token=TOKEN, parse_mode=ParseMode.HTML)

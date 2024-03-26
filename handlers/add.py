@@ -8,8 +8,8 @@ from aiogram.enums import ParseMode
 
 from email_validator import validate_email, EmailNotValidError
 
-# import dbmanager as dm
-# import terminal as tm
+import dbmanager as dm
+import terminal as tm
 
 
 router = Router()
@@ -46,8 +46,8 @@ async def add_mail_to(message: Message, state: FSMContext) -> None:
         await state.update_data(mail_t=message.text)
         data = await state.get_data()
         user_id = message.from_user.id
-        # dm.register_user(user_id=user_id, source=data['mail_f'] + '@apethrone.ru', destination=data['mail_t'])
-        # tm.add_to_ubuntu(name=data['mail_f'])
+        dm.register_user(user_id=user_id, source=data['mail_f'] + '@apethrone.ru', destination=data['mail_t'])
+        tm.add_to_ubuntu(name=data['mail_f'])
         await message.answer(str(data) + str(user_id))
         await state.clear()
     else:

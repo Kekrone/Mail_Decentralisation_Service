@@ -8,6 +8,9 @@ from states import Form
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message
 
+import dbmanager as dm
+import terminal as tm
+
 router = Router()
 
 def check(email):
@@ -27,22 +30,12 @@ async def delete_mail(message: Message, state: FSMContext) -> None:
 @router.message(Form.del_mail_from)
 async def delete_mail_from(message: Message, state: FSMContext) -> None:
     if not check(message.text) and all([x.lower() in ascii_lowercase for x in message.text]):
-        await state.update_data(mail_f=message.text)
-        await message.answer(text="Введите целевую почту")
-        await state.set_state(Form.del_mail_to)
+        mail_f = message.text + '@apethrone.ru'
+        await state.clear()
+        dm.delete_user(source=mail_f)
+        tm.delete_user(name=message.text)
+        await message.answer('Успешно')
     else:
         await state.set_state(Form.del_mail_from)
-        await message.answer(text="Название для почты не должно содержать `@доменное_имя`",
+        await message.answer(text="Название для почты должно содержать `@доменное_имя`",
                              parse_mode=ParseMode.MARKDOWN)
-
-
-@router.message(Form.del_mail_to)
-async def delete_mail_to(message: Message, state: FSMContext) -> None:
-    if check(message.text):
-        await state.update_data(mail_t=message.text)
-        await message.answer(text=str(await state.get_data()))
-        await state.clear()
-    else:
-        await message.answer(text="*Некорректный* формат почты. Попробуйте еще раз!",
-                             parse_mode=ParseMode.MARKDOWN)
-        await state.set_state(Form.del_mail_to)
